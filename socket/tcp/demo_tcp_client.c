@@ -5,8 +5,22 @@
 
 int sockfd;
 
-#define SERVER_IP	"106.13.62.194"
+//#define SERVER_IP	"106.13.62.194"
+#define SERVER_IP	"127.0.0.1"
+
 #define SERVER_PORT	6666
+
+
+int client_send(char *buf, int len)
+{
+	int ret;
+	if((ret = send(sockfd, buf, len, 0)) == -1)
+	{
+		perror("send : ");
+	}
+	return ret;
+}
+
 
 int __cli_handle(int sock_fd)
 {
@@ -98,7 +112,7 @@ int main(void)
 		if(str != NULL)
 		{
 	        command_format(command);
-			printf("server @: $ ");
+			printf("client @: $ ");
 		}
 
 	}

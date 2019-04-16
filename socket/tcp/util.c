@@ -8,6 +8,8 @@ void printf_hex(char *buf, int len)
 	{
 		printf("0x%x ", buf[i]);
 	}
+
+	
 }
 
 

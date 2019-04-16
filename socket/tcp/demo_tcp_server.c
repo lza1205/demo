@@ -40,11 +40,13 @@ int client_handle(int sock_fd, struct sockaddr_in *cli_addr)
 
 	while(1)
 	{
-		if((ret = recv(sock_fd, &recvbuf, sizeof(recvbuf), 0)) == -1){
+		if((ret = recv(sock_fd, recvbuf, sizeof(recvbuf), 0)) == -1){
+			printf("recv error \r\n");
 			return -1;
 		}
-
+		printf("recv :\r\n");
 		printf_hex(recvbuf, ret);
+		printf("\r\n");
 	}
 }
 
@@ -122,24 +124,16 @@ void *__tcp_server(void *pdata)
 
 		cli_addr = malloc(sizeof(struct sockaddr));
 
-		//printf("accept addr is %s\r\n", inet_ntoa(their_addr.sin_addr));
+		printf("accept addr\r\n");
 
 		if(cli_addr != NULL)
-			memcpy(cli_addr, &their_addr, sizeof(struct sockaddr));
-		
-		
-
-		/*	这里将建立一个子进程来和刚刚建立的套接字进行通讯 */
-		if(fork() == 0)
 		{
-			close(sock_fd);
-
-			//处理目标
-			client_handle(new_fd, cli_addr);
-			
-			close(new_fd);
-			exit(0);
+			memcpy(cli_addr, &their_addr, sizeof(struct sockaddr));
 		}
+		
+		//处理目标
+		client_handle(new_fd, cli_addr);
+		
 		close(new_fd);
 	}
 }

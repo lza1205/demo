@@ -40,12 +40,31 @@ static void __help(void)
 }
 
 
+static void __send(void)
+{
+	int ret;
+	ret = client_send(gp_comman_tag[1], strlen(gp_comman_tag[1]));
+
+	if(ret == -1)
+	{
+		printf("send faild \r\n");
+	}
+}
+
 
 /********************************************
 ¿Í»§¶ËÃüÁîĞĞ
 ********************************************/
 struct command_t gt_comman_client[] = {
 
+	{
+			.name		= "send",
+			.com_fun	= __send,
+			.tag_num	= 0,
+			.tag_p		= NULL,
+			.help		= "show help",
+	},
+		
 
 	{
 		.name		= "help",

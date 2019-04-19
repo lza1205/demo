@@ -26,13 +26,14 @@ LDFLAGS+=-g -O -Wall
 
 
 INC = -I./include
-LDLIB = -lpthread
+LDLIB = -lpthread -levent
 
 obj-server += command.o 
 obj-server += command_server.o 
 obj-server += demo_tcp_server.o
 obj-server += util.o
-
+obj-server += socket_event.o
+obj-server += ./code/tcp_3a.o
 
 obj-client += command.o 
 obj-client += command_client.o 
@@ -41,7 +42,7 @@ obj-client += util.o
 
 all:tcp_server tcp_client
 
-tcp_server:command.o command_server.o demo_tcp_server.o util.o
+tcp_server:command.o command_server.o demo_tcp_server.o util.o socket_event.o ./code/tcp_3a.o
 	$(CC) $(LDFLAGS) $(INC) -o tcp_server $(obj-server) $(LDLIB)
 
 tcp_client:command.o command_client.o demo_tcp_client.o util.o

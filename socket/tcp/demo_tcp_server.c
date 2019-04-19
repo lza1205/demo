@@ -22,6 +22,8 @@
 
 #include <signal.h>
 
+#include "all.h"
+
 
 
 #define SERVER_PORT_TCP			6666
@@ -130,10 +132,10 @@ void *__tcp_server(void *pdata)
 		{
 			memcpy(cli_addr, &their_addr, sizeof(struct sockaddr));
 		}
-		
+
 		//处理目标
 		client_handle(new_fd, cli_addr);
-		
+
 		close(new_fd);
 	}
 }
@@ -154,12 +156,38 @@ void create_tcp_server(void)
 	}
 }
 
+
+
+
+void *__tcp_server_event(void *pdata)
+{
+	socket_event_init(SERVER_PORT_TCP);
+}
+
+
+void create_tcp_server_for_event(void)
+{
+	pthread_t server_thread;
+    pthread_attr_t server_thread_attr;
+
+	/* 创建子进程 */
+	pthread_attr_init(&server_thread_attr);		//初始化进程属性
+	pthread_attr_setdetachstate(&server_thread_attr, PTHREAD_CREATE_DETACHED);
+//	  if (pthread_create(&recv_thread, &recv_thread_attr, recv_pthread, NULL) < 0)
+	if (pthread_create(&server_thread, &server_thread_attr, __tcp_server_event, NULL) < 0)
+	{
+		perror("pthread_create");
+	}
+}
+
+
 int main(void)
 {
 	char command[1024];
 	char *str;
 
-	create_tcp_server();
+	//create_tcp_server();
+	create_tcp_server_for_event();
 
 	/* 初始化命令行 */
 	server_command_init();

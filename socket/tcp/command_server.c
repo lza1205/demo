@@ -37,6 +37,34 @@ static void __help(void)
 	printf("/------------------- --------------- -------------------/\r\n");
 }
 
+void set_3a_switch(char flag, char of);
+
+
+void get_3a_switch(void);
+
+
+
+void get_3a_iccid(void);
+
+
+void __set_switch(void)
+{
+	char *tag_1 = gp_comman_tag[1];
+	char *tag_2 = gp_comman_tag[2];
+	
+	set_3a_switch((*tag_1) - '0', (*tag_2) - '0');
+}
+
+void __get_switch(void)
+{
+	get_3a_switch();
+}
+
+
+void __get_iccid(void)
+{
+	get_3a_iccid();
+}
 
 struct command_t gt_comman_server[] = {
 
@@ -54,6 +82,30 @@ struct command_t gt_comman_server[] = {
 		.tag_num	= 0,
 		.tag_p		= NULL,
 		.help 		= "show help",
+	},
+
+	{
+		.name		= "set_switch",
+		.com_fun	= __set_switch,
+		.tag_num	= 0,
+		.tag_p		= NULL,
+		.help 		= "you can enter : set_switch 1/2 0/1/2",
+	},
+
+	{
+		.name		= "get_switch",
+		.com_fun	= __get_switch,
+		.tag_num	= 0,
+		.tag_p		= NULL,
+		.help 		= "you can enter : get_switch",
+	},
+
+	{
+		.name		= "get_iccid",
+		.com_fun	= __get_iccid,
+		.tag_num	= 0,
+		.tag_p		= NULL,
+		.help 		= "you can enter : get_iccid",
 	},
 
 	{

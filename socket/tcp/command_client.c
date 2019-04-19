@@ -52,19 +52,41 @@ static void __send(void)
 }
 
 
+void __login(void)
+{
+	char buf[] = {0x3a ,0x3a ,0x1 ,0x0 ,0x7 ,0x1 ,0x2 ,0x3 ,0x4 ,0x5 ,
+					0x64 ,0x1 ,0x63 ,0x5d ,0x5d};
+	
+	int ret;
+	ret = client_send(buf, sizeof(buf));
+
+	if(ret == -1)
+	{
+		printf("send faild \r\n");
+	}
+}
+
+
 /********************************************
 øÕªß∂À√¸¡Ó––
 ********************************************/
 struct command_t gt_comman_client[] = {
 
 	{
-			.name		= "send",
-			.com_fun	= __send,
-			.tag_num	= 0,
-			.tag_p		= NULL,
-			.help		= "show help",
+		.name		= "send",
+		.com_fun	= __send,
+		.tag_num	= 0,
+		.tag_p		= NULL,
+		.help		= "show help",
 	},
-		
+
+	{
+		.name		= "login",
+		.com_fun	= __login,
+		.tag_num	= 0,
+		.tag_p		= NULL,
+		.help		= "show help",
+	},
 
 	{
 		.name		= "help",
